@@ -63,14 +63,6 @@ export const FAQSection = () => {
           viewport={{ once: true, margin: "-100px" }}
           className="text-center mb-16"
         >
-          <motion.div
-            variants={fadeInUp}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/30 rounded-full text-primary text-sm font-medium mb-4"
-          >
-            <HelpCircle size={16} />
-            FAQ
-          </motion.div>
-
           <motion.h2
             variants={fadeInUp}
             className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mb-6"

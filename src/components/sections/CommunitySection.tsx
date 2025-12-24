@@ -89,13 +89,6 @@ export const CommunitySection = () => {
           viewport={{ once: true, margin: "-100px" }}
           className="text-center mb-20"
         >
-          <motion.div
-            variants={fadeInUp}
-            className="inline-block px-4 py-2 bg-secondary/10 border border-secondary/30 rounded-full text-secondary text-sm font-medium mb-4"
-          >
-            Community
-          </motion.div>
-
           <motion.h2
             variants={fadeInUp}
             className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mb-6"

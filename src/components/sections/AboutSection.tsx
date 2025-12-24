@@ -67,13 +67,6 @@ export const AboutSection = () => {
           {/* Right: Content */}
           <motion.div variants={slideInFromRight} className="space-y-8">
             <div>
-              <motion.div
-                variants={fadeInUp}
-                className="inline-block px-4 py-2 bg-primary/10 border border-primary/30 rounded-full text-primary text-sm font-medium mb-4"
-              >
-                About Us
-              </motion.div>
-
               <motion.h2
                 variants={fadeInUp}
                 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mb-6"

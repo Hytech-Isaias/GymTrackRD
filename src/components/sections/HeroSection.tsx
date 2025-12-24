@@ -163,15 +163,6 @@ export const HeroSection = () => {
         animate="visible"
         className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
       >
-        {/* Badge */}
-        <motion.div
-          variants={fadeInUp}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/30 rounded-full text-primary text-sm font-medium mb-8 backdrop-blur-sm"
-        >
-          <Zap size={16} className="animate-pulse" />
-          AI-Powered Fitness Revolution
-        </motion.div>
-
         {/* Headline */}
         <motion.h1
           variants={textReveal}
@@ -205,7 +196,7 @@ export const HeroSection = () => {
             whileTap={{ scale: 0.98 }}
             className="px-8 py-4 bg-gradient-to-r from-primary to-secondary text-white font-bold text-lg rounded-full shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-shadow duration-300"
           >
-            Start Free Trial
+            Start Free
           </motion.button>
 
           <motion.button
@@ -213,7 +204,7 @@ export const HeroSection = () => {
             whileTap={{ scale: 0.98 }}
             className="px-8 py-4 bg-surface-primary/10 backdrop-blur-sm border-2 border-surface-border text-text-primary font-bold text-lg rounded-full hover:bg-surface-primary/20 transition-colors duration-300"
           >
-            Watch Demo
+            Upgrade to Premium
           </motion.button>
         </motion.div>
 
