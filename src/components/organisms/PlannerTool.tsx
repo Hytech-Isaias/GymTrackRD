@@ -1,9 +1,20 @@
 import { TrackerItem } from "../molecules/TrackerItem";
 import { Calendar } from "lucide-react";
 import { useWorkoutStore } from "../../store/workoutStore";
+import { useState } from "react";
+import { ExerciseModal } from "../molecules/ExerciseModal";
+import { cn } from "../../lib/utils";
 
 const PlannerTool = () => {
-  const { weeklyPlan, toggleExercise } = useWorkoutStore();
+  const { weeklyPlan, toggleExercise, removeExercise } = useWorkoutStore();
+  const [selectedExercise, setSelectedExercise] = useState<any | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+
+  const handleInfo = (exercise: any) => {
+    setSelectedExercise(exercise);
+    setIsModalOpen(true);
+  };
 
   return (
     <div className="glass-panel rounded-2xl p-6 border border-surface-border">
@@ -12,8 +23,16 @@ const PlannerTool = () => {
           <Calendar className="text-primary" />
           <span className="text-gradient">Weekly Schedule</span>
         </h2>
-        <button className="text-sm text-primary hover:text-primary/80 transition-colors">
-          Edit Plan
+        <button
+          onClick={() => setIsEditing(!isEditing)}
+          className={cn(
+            "text-sm font-medium transition-colors px-3 py-1 rounded-lg",
+            isEditing
+              ? "bg-primary text-white hover:bg-primary/90"
+              : "text-primary hover:text-primary/80 hover:bg-primary/10"
+          )}
+        >
+          {isEditing ? "Done" : "Edit Plan"}
         </button>
       </div>
 
@@ -34,11 +53,17 @@ const PlannerTool = () => {
             </div>
             {day.exercises.length > 0 ? (
               <div className="space-y-2">
-                {day.exercises.map((ex, exIdx) => (
+                {day.exercises.map((ex: any, exIdx) => (
                   <TrackerItem
                     key={exIdx}
-                    {...ex}
+                    title={ex.name || ex.title || "Exercise"}
+                    sets={ex.sets}
+                    reps={ex.reps}
+                    completed={ex.completed}
+                    isEditing={isEditing}
                     onToggle={() => toggleExercise(dayIdx, exIdx)}
+                    onInfo={() => handleInfo(ex)}
+                    onDelete={() => removeExercise(dayIdx, exIdx)}
                   />
                 ))}
               </div>
@@ -50,6 +75,12 @@ const PlannerTool = () => {
           </div>
         ))}
       </div>
+
+      <ExerciseModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        exercise={selectedExercise}
+      />
     </div>
   );
 };

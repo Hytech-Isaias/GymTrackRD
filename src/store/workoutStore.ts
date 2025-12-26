@@ -26,6 +26,7 @@ interface WorkoutState {
   stats: WorkoutStats;
   addWorkoutToDay: (dayName: string, workoutData: { exercises: { name: string; sets: number; reps: number | string }[]; stats: { focus: string } }) => void;
   toggleExercise: (dayIndex: number, exerciseIndex: number) => void;
+  removeExercise: (dayIndex: number, exerciseIndex: number) => void;
 }
 
 const INITIAL_PLAN: DayPlan[] = [
@@ -92,6 +93,26 @@ export const useWorkoutStore = create<WorkoutState>()(
         }
 
         exercises[exerciseIndex] = exercise;
+        day.exercises = exercises;
+        newPlan[dayIndex] = day;
+
+        return { weeklyPlan: newPlan, stats: newStats };
+      }),
+      removeExercise: (dayIndex, exerciseIndex) => set((state) => {
+        const newPlan = [...state.weeklyPlan];
+        const day = { ...newPlan[dayIndex] };
+        const exercises = [...day.exercises];
+        const exerciseToRemove = exercises[exerciseIndex];
+        
+        // If removing a completed exercise, revert stats
+        const newStats = { ...state.stats };
+        if (exerciseToRemove.completed) {
+          newStats.workoutsCompleted -= 1;
+          newStats.caloriesBurned -= 150;
+          newStats.activeMinutes -= 15;
+        }
+
+        exercises.splice(exerciseIndex, 1);
         day.exercises = exercises;
         newPlan[dayIndex] = day;
 

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import {
   X,
@@ -13,7 +14,8 @@ import { getExerciseData, Exercise } from "../../lib/exerciseDB";
 
 export interface ExerciseModalProps {
   exercise: {
-    name: string;
+    name?: string;
+    title?: string;
     sets?: number | string;
     rest?: string;
   } | null;
@@ -39,7 +41,8 @@ export const ExerciseModal = ({
 
       setLoading(true);
       try {
-        const data = await getExerciseData(exercise.name);
+        const exerciseName = exercise.name || exercise.title || "";
+        const data = await getExerciseData(exerciseName);
         setExerciseData(data);
       } catch (error) {
         console.error("Error loading exercise:", error);
@@ -69,7 +72,7 @@ export const ExerciseModal = ({
     exit: { opacity: 0, scale: 0.9, y: 20 },
   };
 
-  return (
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
         <>
@@ -223,6 +226,7 @@ export const ExerciseModal = ({
           </motion.div>
         </>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 };

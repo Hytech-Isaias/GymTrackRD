@@ -1,9 +1,19 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, Loader2, Send, Zap, RefreshCw, Info } from "lucide-react";
+import {
+  Sparkles,
+  Loader2,
+  Send,
+  Zap,
+  RefreshCw,
+  Info,
+  Check,
+} from "lucide-react";
 import { generateWorkoutPlan } from "../../lib/AIService";
 import { useWorkoutStore } from "../../store/workoutStore";
 import { ExerciseModal } from "../molecules/ExerciseModal";
+import Select from "../atoms/Select";
+import { cn } from "../../lib/utils";
 
 interface PlanExercise {
   name: string;
@@ -28,6 +38,7 @@ export const AIAssistant = () => {
   const [selectedDay, setSelectedDay] = useState("Monday");
   const [selectedExercise, setSelectedExercise] = useState<any | null>(null); // ExerciseModal expects specific shape
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedIndices, setSelectedIndices] = useState<number[]>([]);
 
   const quickPrompts = [
     "Build muscle with compound exercises",
@@ -43,8 +54,14 @@ export const AIAssistant = () => {
   const handleAdd = () => {
     if (result && selectedDay) {
       // Adapt generated plan to store format
+      const selectedExercises = result.exercises.filter((_: any, i: number) =>
+        selectedIndices.includes(i)
+      );
+
+      if (selectedExercises.length === 0) return;
+
       const workoutData = {
-        exercises: result.exercises.map((ex) => ({
+        exercises: selectedExercises.map((ex) => ({
           name: ex.name,
           sets: Number(ex.sets) || 3,
           reps: ex.reps || "12",
@@ -66,6 +83,7 @@ export const AIAssistant = () => {
     try {
       const plan = await generateWorkoutPlan(prompt, level, duration);
       setResult(plan);
+      setSelectedIndices(plan.exercises.map((_: any, i: number) => i));
     } catch (e: any) {
       console.error(e);
       setError(e.message || "Failed to generate workout. Please try again.");
@@ -84,11 +102,19 @@ export const AIAssistant = () => {
     setIsModalOpen(true);
   };
 
+  const toggleSelection = (index: number) => {
+    setSelectedIndices((prev) =>
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+    );
+  };
+
   return (
     <>
-      <div className="glass-panel rounded-2xl p-6 relative overflow-hidden border border-surface-border backdrop-blur-xl">
+      <div className="glass-panel rounded-2xl p-6 relative border border-surface-border backdrop-blur-xl">
         {/* Animated Background Gradient */}
-        <div className="absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-secondary/5 pointer-events-none animate-pulse-slow" />
+        <div className="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
+          <div className="absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-secondary/5 animate-pulse-slow" />
+        </div>
 
         <div className="relative z-10">
           {/* Header */}
@@ -163,30 +189,32 @@ export const AIAssistant = () => {
                 <label className="block text-xs text-text-tertiary mb-1.5">
                   Fitness Level
                 </label>
-                <select
+                <Select
                   value={level}
-                  onChange={(e) => setLevel(e.target.value)}
-                  className="w-full px-3 py-2 bg-surface-primary/50 border border-surface-border rounded-lg text-sm text-text-primary focus:outline-none focus:border-primary/50"
-                >
-                  <option>Beginner</option>
-                  <option>Intermediate</option>
-                  <option>Advanced</option>
-                </select>
+                  onChange={setLevel}
+                  options={[
+                    { value: "Beginner", label: "Beginner" },
+                    { value: "Intermediate", label: "Intermediate" },
+                    { value: "Advanced", label: "Advanced" },
+                  ]}
+                  className="w-full"
+                />
               </div>
               <div>
                 <label className="block text-xs text-text-tertiary mb-1.5">
                   Duration (min)
                 </label>
-                <select
+                <Select
                   value={duration}
-                  onChange={(e) => setDuration(Number(e.target.value))}
-                  className="w-full px-3 py-2 bg-surface-primary/50 border border-surface-border rounded-lg text-sm text-text-primary focus:outline-none focus:border-primary/50"
-                >
-                  <option value={15}>15 min</option>
-                  <option value={30}>30 min</option>
-                  <option value={45}>45 min</option>
-                  <option value={60}>60 min</option>
-                </select>
+                  onChange={(val) => setDuration(Number(val))}
+                  options={[
+                    { value: "15", label: "15 min" },
+                    { value: "30", label: "30 min" },
+                    { value: "45", label: "45 min" },
+                    { value: "60", label: "60 min" },
+                  ]}
+                  className="w-full"
+                />
               </div>
             </div>
           </div>
@@ -248,45 +276,79 @@ export const AIAssistant = () => {
                 </div>
 
                 <div className="space-y-2">
-                  {result.exercises.map((ex, i) => (
-                    <div
-                      key={i}
-                      className="flex items-center gap-3 text-sm group"
-                    >
-                      <span className="shrink-0 w-6 h-6 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs font-bold">
-                        {i + 1}
-                      </span>
-                      <span className="text-text-secondary flex-1">
-                        {ex.name}
-                      </span>
-                      <span className="text-xs text-text-tertiary">
-                        {ex.sets}
-                      </span>
-                      <button
-                        onClick={() => handleExerciseInfo(ex)}
-                        className="opacity-0 group-hover:opacity-100 p-1.5 hover:bg-surface-tertiary rounded-lg transition-all"
-                        title="View exercise details"
+                  <p className="text-xs text-text-tertiary mb-2">
+                    Click to select/deselect exercises:
+                  </p>
+                  {result.exercises.map((ex, i) => {
+                    const isSelected = selectedIndices.includes(i);
+                    return (
+                      <motion.div
+                        key={i}
+                        layout
+                        onClick={() => toggleSelection(i)}
+                        className={cn(
+                          "flex items-center gap-3 text-sm p-3 rounded-xl border transition-all cursor-pointer group",
+                          isSelected
+                            ? "bg-surface-primary border-primary/30 shadow-xs" // Selected state
+                            : "bg-surface-secondary/30 border-transparent opacity-60 hover:opacity-100 hover:bg-surface-secondary" // Unselected state
+                        )}
+                        whileHover={{ scale: 1.01 }}
+                        whileTap={{ scale: 0.99 }}
                       >
-                        <Info size={14} className="text-primary" />
-                      </button>
-                    </div>
-                  ))}
+                        <div
+                          className={cn(
+                            "shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold transition-colors",
+                            isSelected
+                              ? "bg-primary/20 text-primary"
+                              : "bg-surface-tertiary text-text-tertiary"
+                          )}
+                        >
+                          {isSelected && <Check size={12} strokeWidth={3} />}
+                          {!isSelected && i + 1}
+                        </div>
+                        <span
+                          className={cn(
+                            "flex-1 transition-colors",
+                            isSelected
+                              ? "text-text-primary font-medium"
+                              : "text-text-secondary"
+                          )}
+                        >
+                          {ex.name}
+                        </span>
+                        <span className="text-xs text-text-tertiary">
+                          {ex.sets} sets
+                        </span>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleExerciseInfo(ex);
+                          }}
+                          className="p-1.5 hover:bg-surface-tertiary rounded-lg transition-all opacity-0 group-hover:opacity-100"
+                          title="View exercise details"
+                        >
+                          <Info size={16} className="text-primary" />
+                        </button>
+                      </motion.div>
+                    );
+                  })}
                 </div>
 
                 <div className="flex items-center gap-2 pt-3 border-t border-surface-border">
-                  <select
+                  <Select
                     value={selectedDay}
-                    onChange={(e) => setSelectedDay(e.target.value)}
-                    className="flex-1 px-3 py-2 bg-surface-primary/50 border border-surface-border rounded-lg text-sm text-text-primary"
-                  >
-                    <option>Monday</option>
-                    <option>Tuesday</option>
-                    <option>Wednesday</option>
-                    <option>Thursday</option>
-                    <option>Friday</option>
-                    <option>Saturday</option>
-                    <option>Sunday</option>
-                  </select>
+                    onChange={setSelectedDay}
+                    options={[
+                      { value: "Monday", label: "Monday" },
+                      { value: "Tuesday", label: "Tuesday" },
+                      { value: "Wednesday", label: "Wednesday" },
+                      { value: "Thursday", label: "Thursday" },
+                      { value: "Friday", label: "Friday" },
+                      { value: "Saturday", label: "Saturday" },
+                      { value: "Sunday", label: "Sunday" },
+                    ]}
+                    className="flex-1"
+                  />
                   <motion.button
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.98 }}

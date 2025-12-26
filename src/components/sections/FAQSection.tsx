@@ -2,7 +2,6 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { FAQItem } from "../molecules/FAQItem";
 import { staggerContainer, fadeInUp } from "../../lib/animations/variants";
-import { HelpCircle } from "lucide-react";
 
 const FAQS = [
   {
