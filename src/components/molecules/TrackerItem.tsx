@@ -25,26 +25,30 @@ const TrackerItem = ({
   return (
     <div
       className={cn(
-        "flex items-center justify-between p-3 rounded-md border transition-all cursor-pointer group hover:bg-surface-secondary",
+        "flex items-center justify-between p-3 rounded-md border transition-all group hover:bg-surface-secondary",
         completed && !isEditing
           ? "bg-secondary/10 border-secondary/20"
           : "bg-surface-secondary/30 border-surface-border hover:border-primary/50",
         isEditing && "cursor-default hover:border-error/50"
       )}
-      onClick={!isEditing ? onToggle : undefined}
     >
       <div className="flex items-center gap-3">
         {/* Checkbox / Status Indicator */}
         <div
-          className={cn(
-            "w-5 h-5 rounded border flex items-center justify-center transition-colors shadow-sm",
-            completed
-              ? "bg-secondary border-secondary"
-              : "border-text-tertiary group-hover:border-primary",
-            isEditing && "opacity-50 grayscale"
-          )}
+          onClick={!isEditing ? onToggle : undefined}
+          className="cursor-pointer"
         >
-          {completed && <Check className="w-3 h-3 text-white" />}
+          <div
+            className={cn(
+              "w-5 h-5 rounded border flex items-center justify-center transition-colors shadow-sm",
+              completed
+                ? "bg-secondary border-secondary"
+                : "border-text-tertiary hover:border-primary",
+              isEditing && "opacity-50 grayscale"
+            )}
+          >
+            {completed && <Check className="w-3 h-3 text-white" />}
+          </div>
         </div>
 
         <div>

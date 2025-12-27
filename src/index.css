@@ -59,6 +59,7 @@
   --neutral-200: #e4dceb;
   --neutral-300: #cbbdd6;
   --neutral-400: #9f8ba3;
+  --neutral-700: #4a3f52;
   --neutral-800: #2a2430;
   --neutral-900: #1a161f;
   --neutral-950: #0f0b14;
@@ -70,51 +71,54 @@
   --bg-surface:     #ffffff;
   --bg-surface-2:   var(--neutral-100);
   
-  /* Text */
-  --text-main:      var(--indigo-ink);
-  --text-body:      var(--indigo);
-  --text-muted:     var(--neutral-400);
+  /* Text - Enhanced for WCAG AA compliance (4.5:1 minimum) */
+  --text-main:      #1a0033;              /* Darker for better contrast (was indigo-ink) */
+  --text-body:      #2d0050;              /* Darker for readability (was indigo) */
+  --text-muted:     #5a4a66;              /* Improved contrast (was neutral-400) */
   
   /* Borders */
   --border-subtle:  var(--neutral-200);
   --border-focus:   var(--indigo-bloom);
 
-  /* Brand Action */
-  --brand-primary:  var(--indigo);
-  --brand-hover:    var(--indigo-2);
+  /* Brand Action - Adjusted for better contrast */
+  --brand-primary:  #4a0a77;              /* Dark enough for text (was indigo) */
+  --brand-hover:    #6818a5;              /* Hover state */
   --brand-text:     #ffffff;
   
-  /* Preserved State Colors */
-  --clr-info: hsl(215, 16%, 64%);
-  --clr-success: #2BA17C;
-  --clr-warning: hsl(45, 100%, 51%);
-  --clr-error: hsl(0, 81%, 51%);
+  /* Preserved State Colors - Enhanced for accessibility */
+  --clr-info: #1e40af;                    /* Darker blue for better contrast */
+  --clr-success: #15803d;                 /* Darker green for accessibility */
+  --clr-warning: #b45309;                 /* Darker orange for readability */
+  --clr-error: #dc2626;                   /* Maintains good contrast */
 
   color-scheme: light;
 }
 
 html.dark {
-  /* Backgrounds - Shifted to Pitch Black/Deepest Neutrals */
+  /* Backgrounds - Pitch Black/Deepest Neutrals */
   --bg-page:        #020202;              /* Darker Black */
-  --bg-surface:     #080808;              /* Almost Black */
-  --bg-surface-2:   #121212;              /* Standard Dark Surface */
+  --bg-surface:     #0a0a0a;              /* Almost Black */
+  --bg-surface-2:   #141414;              /* Standard Dark Surface */
 
-  /* Text */
-  --text-main:      #fcfcfc;              /* Almost White - Neutral */
-  --text-body:      #a1a1aa;              /* Neutral Zinc-400 equivalent - distinct from white but readable */
-  --text-muted:     #52525b;              /* Neutral Zinc-600 */
+  /* Text - Enhanced for dark mode WCAG AA compliance */
+  --text-main:      #f5f5f5;              /* Brighter for better contrast */
+  --text-body:      #d1d1d6;              /* Improved readability */
+  --text-muted:     #8e8e93;              /* Better visibility than before */
 
   /* Borders */
-  --border-subtle:  var(--neutral-900);
-  --border-focus:   var(--indigo-bloom);
+  --border-subtle:  #2a2a2a;
+  --border-focus:   var(--bright-lavender);
 
-  /* Brand Action - Brightened for Contrast */
-  --brand-primary:  var(--indigo-bloom); /* #bd68ee - Much better contrast on black */
-  --brand-hover:    var(--indigo-2);     /* #d283ff */
-  --brand-text:     #050505;                /* Dark text on bright buttons */
+  /* Brand Action - Brightened for Dark Mode Contrast */
+  --brand-primary:  #bd68ee;              /* Much better contrast on black */
+  --brand-hover:    #d283ff;              /* Brighter hover */
+  --brand-text:     #0a0a0a;              /* Dark text on bright buttons */
   
-  /* Remap Secondary for Dark Mode (Original was too dark) */
-  --color-secondary: var(--indigo-2); /* #ab51e3 */
+  /* State Colors - Optimized for dark backgrounds */
+  --clr-info: #60a5fa;                    /* Brighter blue */
+  --clr-success: #4ade80;                 /* Brighter green */
+  --clr-warning: #fbbf24;                 /* Brighter yellow */
+  --clr-error: #f87171;                   /* Brighter red */
 
   color-scheme: dark;
 }

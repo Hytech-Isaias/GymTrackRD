@@ -9,23 +9,23 @@ export default {
     extend: {
       colors: {
         // Using CSS variables for dynamic theming
-        background: 'var(--bg-page)', // Mapped to new background variable
+        background: 'var(--bg-page)',
         primary: {
           DEFAULT: 'var(--brand-primary)',
           foreground: 'var(--brand-text)',
         },
         secondary: {
-          DEFAULT: 'var(--brand-hover)', // Using hover/secondary purple
+          DEFAULT: 'var(--brand-hover)',
           foreground: '#ffffff',
         },
         accent: {
-          DEFAULT: 'var(--mauve-magic)', // Using mauve as accent
+          DEFAULT: 'var(--mauve-magic)',
         },
         // Semantic Colors
         surface: {
           primary: 'var(--bg-surface)',
           secondary: 'var(--bg-surface-2)',
-          tertiary: 'var(--neutral-200)', // Fallback/tertiary
+          tertiary: 'var(--neutral-200)',
           border: 'var(--border-subtle)',
         },
         text: {
@@ -33,7 +33,7 @@ export default {
           secondary: 'var(--text-body)',
           tertiary: 'var(--text-muted)',
         },
-        // State Colors
+        // State Colors - WCAG AA compliant
         info: 'var(--clr-info)',
         success: 'var(--clr-success)',
         warning: 'var(--clr-warning)',
@@ -57,7 +57,7 @@ export default {
           '50%': { transform: 'translateY(-20px)' },
         },
         glow: {
-          '0%': { boxShadow: '0 0 20px rgba(104, 24, 165, 0.3)' }, /* Updated to purple glow */
+          '0%': { boxShadow: '0 0 20px rgba(104, 24, 165, 0.3)' },
           '100%': { boxShadow: '0 0 40px rgba(104, 24, 165, 0.6)' },
         },
         slideUp: {
@@ -76,6 +76,12 @@ export default {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      },
+      // Add contrast-safe shadows
+      boxShadow: {
+        'glow-sm': '0 0 10px rgba(104, 24, 165, 0.3)',
+        'glow-md': '0 0 20px rgba(104, 24, 165, 0.4)',
+        'glow-lg': '0 0 30px rgba(104, 24, 165, 0.5)',
       },
     },
   },

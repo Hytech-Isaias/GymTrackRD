@@ -5,6 +5,7 @@ import { PlannerTool } from "../components/organisms/PlannerTool";
 import { ProgressTracker } from "../components/organisms/ProgressTracker";
 import { AIAssistant } from "../components/organisms/AIAssistant";
 import { SEOHead } from "../components/atoms/SEOHead";
+import { Advertisement } from "../components/atoms/Advertisement";
 import { fadeInUp, staggerContainer } from "../lib/animations/variants";
 import {
   Sparkles,
@@ -76,40 +77,6 @@ const StatCard = ({
             {trend}%
           </div>
         )}
-      </div>
-    </motion.div>
-  );
-};
-
-// Minimalist Ad Component
-interface MinimalAdProps {
-  size?: "xs" | "sm" | "md" | "lg";
-  position?: "top" | "bottom";
-}
-
-const MinimalAd = ({ size = "sm" }: MinimalAdProps) => {
-  const sizes = {
-    xs: "h-16",
-    sm: "h-24",
-    md: "h-40",
-    lg: "h-60",
-  };
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.98 }}
-      animate={{ opacity: 1, scale: 1 }}
-      whileHover={{ scale: 1.01 }}
-      className={`group relative overflow-hidden bg-surface-secondary/50 ${sizes[size]} rounded-xl border border-surface-border backdrop-blur-md flex items-center justify-center`}
-    >
-      {/* Subtle animated gradient */}
-      <div className="absolute inset-0 bg-linear-to-r from-primary/5 via-secondary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-      <div className="relative z-10 text-center">
-        <Sparkles className="mx-auto mb-1 text-text-tertiary" size={18} />
-        <p className="text-[9px] uppercase tracking-widest text-text-tertiary font-medium">
-          Advertisement
-        </p>
       </div>
     </motion.div>
   );
@@ -221,14 +188,14 @@ const PlannerPage = () => {
           </motion.div>
         </motion.div>
 
-        {/* Top Ad - Minimal */}
+        {/* Real AdSense Ad Option */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
+          transition={{ delay: 0.6 }}
           className="mb-6"
         >
-          <MinimalAd size="sm" position="top" />
+          <Advertisement position="top" className="" />
         </motion.div>
 
         {/* Main Content Grid */}
@@ -245,9 +212,14 @@ const PlannerPage = () => {
               <AIAssistant />
             </motion.div>
 
+            {/* Square ad after AI Assistant */}
+            <motion.div variants={fadeInUp} custom={1} className="flex justify-center">
+              <Advertisement position="square" className="max-w-md" />
+            </motion.div>
+
             {/* Mid Ad */}
             <motion.div variants={fadeInUp} custom={1} className="lg:hidden">
-              <MinimalAd size="md" />
+              <Advertisement position="square" className="max-w-md" />
             </motion.div>
 
             {/* Planner Tool */}
@@ -259,9 +231,14 @@ const PlannerPage = () => {
           {/* Right Sidebar: Progress & Insights */}
 
           <div className="lg:col-span-4 space-y-4">
-            {/* Sidebar Ad 1 */}
+            {/* Sidebar Ad 1 - Real AdSense */}
+            <motion.div variants={fadeInUp} custom={2} className="hidden lg:block">
+              <Advertisement position="sidebar" />
+            </motion.div>
+
+            {/* Sidebar Ad 1 - Minimal fallback */}
             <motion.div variants={fadeInUp} custom={2}>
-              <MinimalAd size="md" />
+              <Advertisement position="square" className="max-w-md" />
             </motion.div>
 
             {/* Progress Tracker */}
@@ -271,7 +248,7 @@ const PlannerPage = () => {
 
             {/* Sidebar Ad 2 */}
             <motion.div variants={fadeInUp} custom={1}>
-              <MinimalAd size="lg" />
+              <Advertisement position="square" className="max-w-md" />
             </motion.div>
 
             {/* Quick Insights Card */}
@@ -324,12 +301,7 @@ const PlannerPage = () => {
 
             {/* Sidebar Ad 3 */}
             <motion.div variants={fadeInUp} custom={3}>
-              <MinimalAd size="lg" />
-            </motion.div>
-
-            {/* Sidebar Ad 4 */}
-            <motion.div variants={fadeInUp} custom={3}>
-              <MinimalAd size="lg" />
+              <Advertisement position="square" className="max-w-md" />
             </motion.div>
           </div>
         </motion.div>
@@ -341,7 +313,7 @@ const PlannerPage = () => {
           transition={{ delay: 1 }}
           className="mt-8"
         >
-          <MinimalAd size="sm" position="bottom" />
+          <Advertisement position="bottom" className="max-w-5xl mx-auto" />
         </motion.div>
       </div>
     </MainLayout>

@@ -8,6 +8,8 @@ import {
   Twitter,
   Facebook,
   Send,
+  Clock,
+  MessageCircle,
 } from "lucide-react";
 import { staggerContainer, fadeInUp } from "../../lib/animations/variants";
 
@@ -15,15 +17,25 @@ export const ContactSection = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    subject: "",
     message: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
+    setIsSubmitting(true);
+    
+    // Simulate form submission
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
     console.log("Form submitted:", formData);
-    alert("Thanks for reaching out! We'll get back to you soon.");
-    setFormData({ name: "", email: "", message: "" });
+    setSubmitSuccess(true);
+    setFormData({ name: "", email: "", subject: "", message: "" });
+    setIsSubmitting(false);
+    
+    setTimeout(() => setSubmitSuccess(false), 3000);
   };
 
   const handleChange = (
@@ -95,13 +107,24 @@ export const ContactSection = () => {
                   {
                     icon: Mail,
                     label: "Email",
-                    value: "hello@workoutplanner.com",
+                    value: "hello@gymtrackrd.com",
+                    link: "mailto:hello@gymtrackrd.com"
                   },
-                  { icon: Phone, label: "Phone", value: "+1 (555) 123-4567" },
+                  { 
+                    icon: Phone, 
+                    label: "Phone", 
+                    value: "+1 (555) 123-4567",
+                    link: "tel:+15551234567"
+                  },
                   {
                     icon: MapPin,
                     label: "Location",
-                    value: "San Francisco, CA",
+                    value: "123 Fitness Ave, San Francisco, CA 94102",
+                  },
+                  {
+                    icon: Clock,
+                    label: "Support Hours",
+                    value: "Mon-Fri: 9AM-6PM PST",
                   },
                 ].map((item, index) => (
                   <motion.div
@@ -117,9 +140,15 @@ export const ContactSection = () => {
                       <p className="text-sm text-text-tertiary mb-1">
                         {item.label}
                       </p>
-                      <p className="text-text-primary font-medium">
-                        {item.value}
-                      </p>
+                      {item.link ? (
+                        <a href={item.link} className="text-text-primary font-medium hover:text-primary transition-colors">
+                          {item.value}
+                        </a>
+                      ) : (
+                        <p className="text-text-primary font-medium">
+                          {item.value}
+                        </p>
+                      )}
                     </div>
                   </motion.div>
                 ))}
@@ -131,22 +160,34 @@ export const ContactSection = () => {
               <h4 className="font-bold text-text-primary mb-4">Follow Us</h4>
               <div className="flex gap-4">
                 {[
-                  { icon: Instagram, href: "#" },
-                  { icon: Twitter, href: "#" },
-                  { icon: Facebook, href: "#" },
+                  { icon: Instagram, href: "https://instagram.com/gymtrackrd", label: "Instagram" },
+                  { icon: Twitter, href: "https://twitter.com/gymtrackrd", label: "Twitter" },
+                  { icon: Facebook, href: "https://facebook.com/gymtrackrd", label: "Facebook" },
                 ].map((social, index) => (
                   <motion.a
                     key={index}
                     href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     whileHover={{ scale: 1.1, y: -2 }}
                     whileTap={{ scale: 0.95 }}
                     className="w-12 h-12 rounded-full bg-surface-primary/5 border border-surface-border flex items-center justify-center text-text-primary hover:border-primary hover:text-primary transition-colors"
-                    aria-label={`Follow us on ${social.icon.name}`}
+                    aria-label={`Follow us on ${social.label}`}
                   >
                     <social.icon size={20} />
                   </motion.a>
                 ))}
               </div>
+            </motion.div>
+
+            {/* Additional Info */}
+            <motion.div variants={fadeInUp} className="glass-panel p-6 rounded-xl border border-surface-border">
+              <MessageCircle className="w-8 h-8 text-primary mb-3" />
+              <h4 className="font-bold text-text-primary mb-2">Quick Response</h4>
+              <p className="text-text-secondary text-sm">
+                We typically respond to all inquiries within 24 hours. For urgent matters, 
+                please call our support line during business hours.
+              </p>
             </motion.div>
           </motion.div>
 
@@ -166,7 +207,7 @@ export const ContactSection = () => {
                   htmlFor="name"
                   className="block text-sm font-medium text-text-secondary mb-2"
                 >
-                  Name
+                  Name *
                 </label>
                 <input
                   type="text"
@@ -176,7 +217,7 @@ export const ContactSection = () => {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 bg-surface-primary/5 border border-surface-border rounded-lg text-text-primary placeholder-text-tertiary focus:outline-none focus:border-primary/50 transition-colors"
-                  placeholder="Your name"
+                  placeholder="Your full name"
                 />
               </div>
 
@@ -185,7 +226,7 @@ export const ContactSection = () => {
                   htmlFor="email"
                   className="block text-sm font-medium text-text-secondary mb-2"
                 >
-                  Email
+                  Email *
                 </label>
                 <input
                   type="email"
@@ -201,10 +242,29 @@ export const ContactSection = () => {
 
               <div>
                 <label
+                  htmlFor="subject"
+                  className="block text-sm font-medium text-text-secondary mb-2"
+                >
+                  Subject *
+                </label>
+                <input
+                  type="text"
+                  id="subject"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 bg-surface-primary/5 border border-surface-border rounded-lg text-text-primary placeholder-text-tertiary focus:outline-none focus:border-primary/50 transition-colors"
+                  placeholder="How can we help?"
+                />
+              </div>
+
+              <div>
+                <label
                   htmlFor="message"
                   className="block text-sm font-medium text-text-secondary mb-2"
                 >
-                  Message
+                  Message *
                 </label>
                 <textarea
                   id="message"
@@ -214,19 +274,34 @@ export const ContactSection = () => {
                   required
                   rows={5}
                   className="w-full px-4 py-3 bg-surface-primary/5 border border-surface-border rounded-lg text-text-primary placeholder-text-tertiary focus:outline-none focus:border-primary/50 transition-colors resize-none"
-                  placeholder="Tell us about your fitness goals..."
+                  placeholder="Tell us more about your inquiry..."
                 />
               </div>
 
-              <motion.button
+              <button
                 type="submit"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full px-6 py-4 bg-gradient-to-r from-primary to-secondary text-white font-bold rounded-lg shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-shadow flex items-center justify-center gap-2"
+                disabled={isSubmitting}
+                className="w-full px-6 py-4 bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <span>Send Message</span>
-                <Send size={18} />
-              </motion.button>
+                {isSubmitting ? (
+                  "Sending..."
+                ) : (
+                  <>
+                    <Send size={18} />
+                    Send Message
+                  </>
+                )}
+              </button>
+
+              {submitSuccess && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="p-4 bg-success/10 border border-success/30 rounded-lg text-success text-center"
+                >
+                  ✓ Message sent successfully! We'll be in touch soon.
+                </motion.div>
+              )}
             </form>
           </motion.div>
         </div>

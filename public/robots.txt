@@ -1,0 +1,17 @@
+# Robots.txt for Workout Planner
+User-agent: *
+Allow: /
+
+# Disallow admin or private areas (if any)
+Disallow: /api/
+Disallow: /admin/
+
+# Allow search engine crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Sitemap location
+Sitemap: https://gymtrackrd.com/sitemap.xml

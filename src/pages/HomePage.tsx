@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { SEOHead } from "../components/atoms/SEOHead";
+import { Advertisement } from "../components/atoms/Advertisement";
 import { HeroSection } from "../components/sections/HeroSection";
 import { AboutSection } from "../components/sections/AboutSection";
 import { ServicesSection } from "../components/sections/ServicesSection";
@@ -59,12 +60,47 @@ const HomePage = () => {
 
       {/* Sections */}
       <HeroSection />
+      
+      {/* Ad after Hero */}
+      <div className="container mx-auto px-4 py-4">
+        <Advertisement position="top" className="max-w-5xl mx-auto" />
+      </div>
+      
       <AboutSection />
+      
+      {/* Additional Ad after About */}
+      <div className="container mx-auto px-4 py-4">
+        <Advertisement position="square" className="max-w-md mx-auto" />
+      </div>
+      
       <ServicesSection />
+      
+      {/* Ad between Services and Reviews */}
+      <div className="container mx-auto px-4 py-4">
+        <Advertisement position="top" className="max-w-5xl mx-auto" />
+      </div>
+      
       <ReviewsSection />
+      
+      {/* Mid-content square ad */}
+      <div className="container mx-auto px-4 py-4">
+        <Advertisement position="square" className="max-w-md mx-auto" />
+      </div>
+      
       <CommunitySection />
+      
+      {/* Ad before FAQ */}
+      <div className="container mx-auto px-4 py-4">
+        <Advertisement position="top" className="max-w-5xl mx-auto" />
+      </div>
+      
       <FAQSection />
       <ContactSection />
+      
+      {/* Ad before Footer */}
+      <div className="container mx-auto px-4 py-8">
+        <Advertisement position="bottom" className="max-w-5xl mx-auto" />
+      </div>
 
       {/* Sticky Mobile CTA */}
       <motion.div

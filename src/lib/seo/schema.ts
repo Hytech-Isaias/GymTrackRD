@@ -7,13 +7,13 @@
 export const getLocalBusinessSchema = () => ({
   "@context": "https://schema.org",
   "@type": "SportsActivityLocation",
-  "name": "Workout Planner",
-  "description": "AI-powered fitness and wellness platform",
-  "url": window.location.origin,
-  "logo": `${window.location.origin}/logo.png`,
-  "image": `${window.location.origin}/hero-image.jpg`,
-  "telephone": "+1-555-0123",
-  "email": "hello@workoutplanner.com",
+  "name": "GymTrackRD",
+  "description": "AI-powered fitness and wellness platform for personalized workout planning and tracking",
+  "url": typeof window !== 'undefined' ? window.location.origin : "https://gymtrackrd.com",
+  "logo": `${typeof window !== 'undefined' ? window.location.origin : "https://gymtrackrd.com"}/logo.png`,
+  "image": `${typeof window !== 'undefined' ? window.location.origin : "https://gymtrackrd.com"}/hero-image.jpg`,
+  "telephone": "+1-555-123-4567",
+  "email": "hello@gymtrackrd.com",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "123 Fitness Ave",
@@ -37,21 +37,22 @@ export const getLocalBusinessSchema = () => ({
         "Thursday",
         "Friday"
       ],
-      "opens": "06:00",
-      "closes": "22:00"
+      "opens": "00:00",
+      "closes": "23:59"
     },
     {
       "@type": "OpeningHoursSpecification",
       "dayOfWeek": ["Saturday", "Sunday"],
-      "opens": "08:00",
-      "closes": "20:00"
+      "opens": "00:00",
+      "closes": "23:59"
     }
   ],
-  "priceRange": "$$",
+  "priceRange": "Free - $$",
   "sameAs": [
-    "https://facebook.com/workoutplanner",
-    "https://instagram.com/workoutplanner",
-    "https://twitter.com/workoutplanner"
+    "https://facebook.com/gymtrackrd",
+    "https://instagram.com/gymtrackrd",
+    "https://twitter.com/gymtrackrd",
+    "https://linkedin.com/company/gymtrackrd"
   ]
 });
 
@@ -73,6 +74,20 @@ interface FAQ {
   answer: string;
 }
 
+interface BreadcrumbItem {
+  name: string;
+  url: string;
+}
+
+interface Article {
+  title: string;
+  description: string;
+  image?: string;
+  author?: string;
+  datePublished?: string;
+  dateModified?: string;
+}
+
 // Service Schema
 export const getServiceSchema = (service: Service) => ({
   "@context": "https://schema.org",
@@ -80,7 +95,7 @@ export const getServiceSchema = (service: Service) => ({
   "serviceType": service.name,
   "provider": {
     "@type": "Organization",
-    "name": "Workout Planner"
+    "name": "GymTrackRD"
   },
   "description": service.description,
   "offers": {
@@ -94,7 +109,7 @@ export const getServiceSchema = (service: Service) => ({
 export const getAggregateRatingSchema = (rating: number, reviewCount: number) => ({
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
-  "name": "Workout Planner",
+  "name": "GymTrackRD",
   "aggregateRating": {
     "@type": "AggregateRating",
     "ratingValue": rating,
@@ -110,7 +125,7 @@ export const getReviewSchema = (review: Review) => ({
   "@type": "Review",
   "itemReviewed": {
     "@type": "LocalBusiness",
-    "name": "Workout Planner"
+    "name": "GymTrackRD"
   },
   "author": {
     "@type": "Person",
@@ -144,36 +159,101 @@ export const getFAQSchema = (faqs: FAQ[]) => ({
 export const getOrganizationSchema = () => ({
   "@context": "https://schema.org",
   "@type": "Organization",
-  "name": "Workout Planner",
-  "url": window.location.origin,
-  "logo": `${window.location.origin}/logo.png`,
+  "name": "GymTrackRD",
+  "url": typeof window !== 'undefined' ? window.location.origin : "https://gymtrackrd.com",
+  "logo": `${typeof window !== 'undefined' ? window.location.origin : "https://gymtrackrd.com"}/logo.png`,
   "description": "AI-powered fitness and wellness platform for personalized workout planning and tracking",
-  "foundingDate": "2024",
+  "foundingDate": "2025",
   "founders": [
     {
       "@type": "Person",
-      "name": "Workout Planner Team"
+      "name": "GymTrackRD Team"
     }
   ],
   "contactPoint": {
     "@type": "ContactPoint",
     "contactType": "customer support",
-    "email": "support@workoutplanner.com"
-  }
+    "email": "support@gymtrackrd.com",
+    "telephone": "+1-555-123-4567",
+    "availableLanguage": ["English"]
+  },
+  "sameAs": [
+    "https://facebook.com/gymtrackrd",
+    "https://instagram.com/gymtrackrd",
+    "https://twitter.com/gymtrackrd",
+    "https://linkedin.com/company/gymtrackrd"
+  ]
 });
 
 // WebSite Schema with Search Action
 export const getWebSiteSchema = () => ({
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "name": "Workout Planner",
-  "url": window.location.origin,
+  "name": "GymTrackRD",
+  "url": typeof window !== 'undefined' ? window.location.origin : "https://gymtrackrd.com",
   "potentialAction": {
     "@type": "SearchAction",
     "target": {
       "@type": "EntryPoint",
-      "urlTemplate": `${window.location.origin}/search?q={search_term_string}`
+      "urlTemplate": `${typeof window !== 'undefined' ? window.location.origin : "https://gymtrackrd.com"}/search?q={search_term_string}`
     },
     "query-input": "required name=search_term_string"
+  }
+});
+
+// Breadcrumb List Schema
+export const getBreadcrumbSchema = (items: BreadcrumbItem[]) => ({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": items.map((item, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "name": item.name,
+    "item": item.url
+  }))
+});
+
+// Article Schema (for blog posts)
+export const getArticleSchema = (article: Article) => {
+  const siteUrl = typeof window !== 'undefined' ? window.location.origin : "https://gymtrackrd.com";
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": article.title,
+    "description": article.description,
+    "image": article.image || `${siteUrl}/og-image.jpg`,
+    "author": {
+      "@type": "Person",
+      "name": article.author || "GymTrackRD Team"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "GymTrackRD",
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${siteUrl}/logo.png`
+      }
+    },
+    "datePublished": article.datePublished || new Date().toISOString(),
+    "dateModified": article.dateModified || new Date().toISOString()
+  };
+};
+
+// Software Application Schema
+export const getSoftwareApplicationSchema = () => ({
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "GymTrackRD",
+  "applicationCategory": "HealthApplication",
+  "operatingSystem": "Web, iOS, Android",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "ratingCount": "2500"
   }
 });

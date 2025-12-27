@@ -46,36 +46,36 @@ const Footer = () => {
           <h4 className="text-text-primary font-bold mb-6 text-lg">Workouts</h4>
           <ul className="space-y-4 text-sm">
             <li>
-              <a
-                href="#"
+              <Link
+                to="/workouts/strength-training"
                 className="hover:text-primary transition-colors hover:translate-x-1 inline-block duration-200"
               >
                 Strength Training
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                to="/workouts/cardio-hiit"
                 className="hover:text-primary transition-colors hover:translate-x-1 inline-block duration-200"
               >
                 Cardio & HIIT
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                to="/workouts/yoga-flexibility"
                 className="hover:text-primary transition-colors hover:translate-x-1 inline-block duration-200"
               >
                 Yoga & Flexibility
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                to="/workouts/custom-plans"
                 className="hover:text-primary transition-colors hover:translate-x-1 inline-block duration-200"
               >
                 Custom Plans
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
@@ -86,36 +86,36 @@ const Footer = () => {
           </h4>
           <ul className="space-y-4 text-sm">
             <li>
-              <a
-                href="#"
+              <Link
+                to="/resources/fitness-blog"
                 className="hover:text-primary transition-colors hover:translate-x-1 inline-block duration-200"
               >
                 Fitness Blog
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                to="/resources/nutrition-guide"
                 className="hover:text-primary transition-colors hover:translate-x-1 inline-block duration-200"
               >
                 Nutrition Guide
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                to="/resources/roi-calculator"
                 className="hover:text-primary transition-colors hover:translate-x-1 inline-block duration-200"
               >
                 ROI Calculator
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                to="/resources/help-center"
                 className="hover:text-primary transition-colors hover:translate-x-1 inline-block duration-200"
               >
                 Help Center
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
@@ -154,15 +154,24 @@ const Footer = () => {
               &copy; {new Date().getFullYear()} GymTrackRD
             </p>
             <div className="flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-2 text-text-tertiary">
-              <a href="#" className="hover:text-primary transition-colors">
+              <Link
+                to="/privacy-policy"
+                className="hover:text-primary transition-colors"
+              >
                 Privacy Policy
-              </a>
-              <a href="#" className="hover:text-primary transition-colors">
+              </Link>
+              <Link
+                to="/terms-of-service"
+                className="hover:text-primary transition-colors"
+              >
                 Terms of Service
-              </a>
-              <a href="#" className="hover:text-primary transition-colors">
+              </Link>
+              <Link
+                to="/cookie-policy"
+                className="hover:text-primary transition-colors"
+              >
                 Cookie Policy
-              </a>
+              </Link>
             </div>
           </div>
 
