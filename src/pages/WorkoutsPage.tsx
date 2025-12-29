@@ -195,10 +195,6 @@ const WorkoutsPage = () => {
         {/* Example: <Advertisement position="top" className="mb-8" adSlot="YOUR_AD_SLOT_ID" /> */}
         <Advertisement position="top" className="mb-8" />
 
-        {/* Additional square ad */}
-        <div className="flex justify-center mb-8">
-          <Advertisement position="square" className="max-w-md" />
-        </div>
 
         {/* Exercises Grid */}
         <div>

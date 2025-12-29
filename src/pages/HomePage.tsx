@@ -60,18 +60,13 @@ const HomePage = () => {
 
       {/* Sections */}
       <HeroSection />
+      <AboutSection />
       
       {/* Ad after Hero */}
       <div className="container mx-auto px-4 py-4">
         <Advertisement position="top" className="max-w-5xl mx-auto" />
       </div>
       
-      <AboutSection />
-      
-      {/* Additional Ad after About */}
-      <div className="container mx-auto px-4 py-4">
-        <Advertisement position="square" className="max-w-md mx-auto" />
-      </div>
       
       <ServicesSection />
       
@@ -82,9 +77,9 @@ const HomePage = () => {
       
       <ReviewsSection />
       
-      {/* Mid-content square ad */}
+      {/* Ad before Reviews */}
       <div className="container mx-auto px-4 py-4">
-        <Advertisement position="square" className="max-w-md mx-auto" />
+        <Advertisement position="top" className="max-w-5xl mx-auto" />
       </div>
       
       <CommunitySection />
